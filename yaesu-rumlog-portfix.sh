@@ -13,7 +13,15 @@ YAESU=${YAESU:-"Yaesu"}
 SLAB=${SLAB:-"SLAB"}
 
 # Main section
-if ! hash $RIGCTL 2> /dev/null; then
+RIGCTLCMD=`which $RIGCTL`
+if [ -z "$RIGCTLCMD" ]; then
+    if [ -f "/opt/local/bin/rigctl" ]; then
+        RIGCTLCMD="/opt/local/bin/rigctl"
+    else
+        echo "Error: hamlib rigctl not installed. Please install and run again."
+        exit 1
+    fi
+else
     echo "Error: hamlib rigctl not installed. Please install and run again."
     exit 1
 fi
@@ -44,7 +52,7 @@ TRXMODEL=`defaults read $RUMLOGDOM $TRXMODELKEY`
 TRXFAMILY=`sed -E 's/(..).*/\1/' <<< $TRXMODEL`
 TRXNUMERICCODE=`sed -E 's/[^[:digit:]]*([[:digit:]]+).*/\1/' <<< $TRXMODEL`
 
-HAMLIBID=`rigctl -l | grep -E "$YAESU.*$TRXFAMILY.*$TRXNUMERICCODE" | awk '{print($1)}'`
+HAMLIBID=`$RIGCTLCMD -l | grep -E "$YAESU.*$TRXFAMILY.*$TRXNUMERICCODE" | awk '{print($1)}'`
 if [ -z "$HAMLIBID" ]; then
     echo "Error: $YAESU $TRXMODEL is not supported by hamlib and therefor not by this utility."
     exit 1
@@ -52,10 +60,10 @@ fi
 
 TRXSERIALPORTNAME=""
 for f in /dev/tty.*$SLAB*; do
-    rigctl -m $HAMLIBID -r $f _ 2> /dev/null >/dev/null
+    $RIGCTLCMD -m $HAMLIBID -r $f _ 2> /dev/null >/dev/null
     if [ $? -eq 0 ]; then
-	TRXSERIALPORTNAME=`sed -E 's/.*tty\.(.*)/\1/' <<< $f`
-	break
+        TRXSERIALPORTNAME=`sed -E 's/.*tty\.(.*)/\1/' <<< $f`
+        break
     fi
 done
 
