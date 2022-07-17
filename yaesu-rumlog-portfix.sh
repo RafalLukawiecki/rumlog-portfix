@@ -22,9 +22,6 @@ if [ -z "$RIGCTLCMD" ]; then
         echo "Error: hamlib rigctl not installed. Please install and run again."
         exit 1
     fi
-else
-    echo "Error: hamlib rigctl not installed. Please install and run again."
-    exit 1
 fi
 
 defaults domains | grep -q $RUMLOGDOM
