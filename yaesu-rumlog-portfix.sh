@@ -8,6 +8,7 @@
 
 # Required software
 RIGCTL=${RIGCTL:-"rigctl"}
+RIGCTLOPT=${RIGCTL:-"/opt/local/bin/rigctl"}
 RUMLOGDOM=${RUMLOGDOM:-"de.dl2rum.RUMlogNG"}
 YAESU=${YAESU:-"Yaesu"}
 SLAB=${SLAB:-"SLAB"}
@@ -15,8 +16,8 @@ SLAB=${SLAB:-"SLAB"}
 # Main section
 RIGCTLCMD=`which $RIGCTL`
 if [ -z "$RIGCTLCMD" ]; then
-    if [ -f "/opt/local/bin/rigctl" ]; then
-        RIGCTLCMD="/opt/local/bin/rigctl"
+    if [ -f "$RIGCTLOPT" ]; then
+        RIGCTLCMD="$RIGCTLOPT"
     else
         echo "Error: hamlib rigctl not installed. Please install and run again."
         exit 1
@@ -35,7 +36,7 @@ fi
 # Figure out which Trx config (1 or 2) to use
 TRXID=`defaults read $RUMLOGDOM | grep -m1 $YAESU | awk '{print($1)}'`
 if [ -z "$TRXID" ]; then
-    echo "Error: Cannot find a $YAESU transceiver in RumLogNG configuration. This utility only works with Yaesu devices."
+    echo "Error: Cannot find a $YAESU transceiver in RumLogNG configuration. This utility only works with $YAESU devices."
     exit 1
 fi
 
@@ -68,7 +69,7 @@ for f in /dev/tty.*$SLAB*; do
 done
 
 if [ -z "$TRXSERIALPORTNAME" ]; then
-    echo "Error: Could not discover the serial port name. Is the device plugged in and turned on? Are the drivers installed?"
+    echo "Error: Could not discover the serial port name. Is the $YAESU device plugged in and turned on?"
     exit 1
 fi
 
