@@ -1,10 +1,12 @@
 #!/bin/bash
 #set -x
 
-# RLL 16JUL22
+# Rafal Lukawiecki EI6LA raf@rafal.net
+# RLL 27JUL22
 #
 # Discover the CAT port for the Yaesu device currently in use by RumLogNG and set it into its
-# config.
+# config. This script can be adapted to cater for other transceivers if needed. Please get in
+# touch if needed.
 
 # Required software
 RIGCTL=${RIGCTL:-"rigctl"}
