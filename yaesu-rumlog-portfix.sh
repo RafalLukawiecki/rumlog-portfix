@@ -8,7 +8,7 @@
 
 # Required software
 RIGCTL=${RIGCTL:-"rigctl"}
-RIGCTLOPT=${RIGCTL:-"/opt/local/bin/rigctl"}
+RIGCTLOPT=${RIGCTLOPT:-"/opt/local/bin/rigctl"}
 RUMLOGDOM=${RUMLOGDOM:-"de.dl2rum.RUMlogNG"}
 YAESU=${YAESU:-"Yaesu"}
 SLAB=${SLAB:-"SLAB"}
