@@ -22,7 +22,15 @@ the Apple quarantine flag, issue `xattr -d com.apple.quarantine
 /usr/local/bin/rumlog-portfix.sh`
 1. If you want to automate the running of the script just prior to running
 RUMlogNG, copy the supplied `RunRUMlogNG.app` Apple Script to your Applications
-folder.
+folder. The first time you want to use it you will get a warning that it is not safe
+to run because it comes from an unidentified developer. To fix that:
+   1. Open your Applications folder in Finder
+   1. Right-click on RunRUMlogNG
+   1. Select Open
+   1. When you get the warning that the app has not been signed by a known developer,
+click Open Anyway. That will let you run it from now on. Unfortunately, I am too cheap
+to pay Apple for the digital signing certificate. If this utility ever becomes popular,
+I may repackage it and pay for the signing cert.
 
 ## How to Use Manually
 
