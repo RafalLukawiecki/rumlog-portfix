@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -x
+# set -x
 
 # RLL 27JUL22
 #
@@ -31,7 +31,7 @@
 
 # Required software
 RIGCTL=${RIGCTL:-"rigctl"}
-RIGCTLOPT=${RIGCTLOPT:-"/opt/local/bin/rigctl"}
+RIGCTLOPT=${RIGCTLOPT:-"/usr/local/bin/rigctl"}
 RUMLOGDOM=${RUMLOGDOM:-"de.dl2rum.RUMlogNG"}
 YAESU=${YAESU:-"Yaesu"}
 SLAB=${SLAB:-"SLAB"}
@@ -54,7 +54,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Figure out which Trx config (1 or 2) to use
-TRXID=`defaults read $RUMLOGDOM | grep -m1 $YAESU | awk '{print($1)}'`
+TRXID=`defaults read $RUMLOGDOM | grep -im1 $YAESU | awk '{print($1)}'`
 if [ -z "$TRXID" ]; then
     echo "Error: Cannot find a $YAESU transceiver in RumLogNG configuration. This utility only works with $YAESU devices."
     exit 1
@@ -73,7 +73,7 @@ TRXMODEL=`defaults read $RUMLOGDOM $TRXMODELKEY`
 TRXFAMILY=`sed -E 's/(..).*/\1/' <<< $TRXMODEL`
 TRXNUMERICCODE=`sed -E 's/[^[:digit:]]*([[:digit:]]+).*/\1/' <<< $TRXMODEL`
 
-HAMLIBID=`$RIGCTLCMD -l | grep -E "$YAESU.*$TRXFAMILY.*$TRXNUMERICCODE" | awk '{print($1)}'`
+HAMLIBID=`$RIGCTLCMD -l | grep -iE "$YAESU.*$TRXFAMILY.*-$TRXNUMERICCODE " | awk '{print($1)}'`
 if [ -z "$HAMLIBID" ]; then
     echo "Error: $YAESU $TRXMODEL is not supported by hamlib and therefor not by this utility."
     exit 1
